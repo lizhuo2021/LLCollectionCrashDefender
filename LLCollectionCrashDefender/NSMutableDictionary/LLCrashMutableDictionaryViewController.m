@@ -1,22 +1,22 @@
 //
-//  LLCrashDictionaryViewController.m
+//  LLCrashMutableDictionaryViewController.m
 //  LLCollectionCrashDefender
 //
 //  Created by 李琢琢 on 2025/2/18.
 //
 
-#import "LLCrashDictionaryViewController.h"
+#import "LLCrashMutableDictionaryViewController.h"
 
 #import "LLCollectionExceptionHandler.h"
 #import "LLUserModel.h"
 
-@interface LLCrashDictionaryViewController ()<UITextViewDelegate>
+@interface LLCrashMutableDictionaryViewController ()<UITextViewDelegate>
 
 @property(nonatomic, strong) UITextView *loggerView;
 
 @end
 
-@implementation LLCrashDictionaryViewController
+@implementation LLCrashMutableDictionaryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,7 +42,7 @@
 
 - (void)setupSubviews {
     
-    self.title = @"NSDictionary Crash";
+    self.title = @"NSMutableDictionary Crash";
     self.view.backgroundColor = UIColor.whiteColor;
     
     
@@ -62,14 +62,36 @@
     CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
     
 
-    //objectAtIndex:
+    //setObject:forKey:
     {
-        UIButton * button = [self createBlackButtonWithTitle:@"NSDictionary use nil init" target:self action:@selector(testDictionaryAddNilObject)];
+        UIButton * button = [self createBlackButtonWithTitle:@"__NSDictionaryM setObject:forKey:" target:self action:@selector(testSetObjectForKey)];
         [self.view addSubview:button];
         
         button.frame = CGRectMake(15, statusBarHeight + navigationBarHeight + 10, CGRectGetWidth(self.view.frame) - 30, 30);
         lastButton = button;
     }
+    
+    //removeObjectForKey:
+    {
+        UIButton * button = [self createBlackButtonWithTitle:@"__NSDictionaryM removeObjectForKey:" target:self action:@selector(testRemoveObjectForKey)];
+        [self.view addSubview:button];
+        
+        button.frame = CGRectMake(15, CGRectGetMaxY(lastButton.frame) + 20, CGRectGetWidth(self.view.frame) - 30, 30);
+        lastButton = button;
+    }
+    
+    //setObject:forKeyedSubscript:
+    if (@available(iOS 11.0, *)) {
+        {
+            UIButton * button = [self createBlackButtonWithTitle:@"__NSDictionaryM setObject:forKeyedSubscript:" target:self action:@selector(testSetObjectForKeyedSubscript)];
+            [self.view addSubview:button];
+            
+            button.frame = CGRectMake(15, CGRectGetMaxY(lastButton.frame) + 20, CGRectGetWidth(self.view.frame) - 30, 30);
+            lastButton = button;
+        }
+    }
+    
+    
     
 //    loggerView
     CGFloat loggerViewHeight = CGRectGetHeight(self.view.frame) - CGRectGetMaxY(lastButton.frame) - 50;
@@ -109,22 +131,46 @@
     self.loggerView.text = [NSString stringWithFormat:@"\n----\n%@", info];
 }
 
-- (void)testDictionaryAddNilObject {
 
-    LLUserModel * item1 = [LLUserModel new];
-    item1.name = @"123123123123131";
-    item1.age = 99;
 
-    LLUserModel * item2;
+- (void)testSetObjectForKey {
+    
+    LLUserModel * model;
+    
+    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+    
+//    -[__NSDictionaryM setObject:forKey:]: object cannot be nil (key: userModel)'
+    [dict setObject:model forKey:@"userModel"];
+    
+}
 
-    LLUserModel * item3 = [LLUserModel new];
-    item3.name = @"123123123123131";
-    item3.age = 99;
+- (void)testRemoveObjectForKey {
 
-//    +[NSDictionary dictionaryWithObjects:forKeys:count:]
-//    -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]
-    NSDictionary * dict = @{@"model1":item1, @"model2":item2};
+    NSString * key;
+    
+    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+    
+//    -[__NSDictionaryM removeObjectForKey:]: key cannot be nil'
+    [dict removeObjectForKey:key];
+    
+}
 
+- (void)testSetObjectForKeyedSubscript {
+    //    setObject: forKeyedSubscript:
+    //    允许通过下标语法（dict[key] = value）为 NSMutableDictionary 设置键值对。
+    //    等价于 [dict setObject:@"Value" forKey:@"Key"];
+    //    dict[@"Key"] = @"Value";
+    //    设置 nil 会移除键值对（iOS 6.0+ 行为）
+    //    dict[@"Key"] = nil;
+    
+    
+    LLUserModel * model;
+    
+    NSMutableDictionary * dict = [NSMutableDictionary dictionary];
+    
+    NSString * key;
+    [dict setObject:model forKeyedSubscript:key];
+    
 }
 
 //MARK: - Delgate

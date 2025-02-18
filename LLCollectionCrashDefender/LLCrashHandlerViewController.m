@@ -57,6 +57,25 @@
         [self.dataSource addObject:cellData];
     }
     
+    {
+        LLCommonTableListCellData * cellData = [LLCommonTableListCellData new];
+        cellData.cellName = @"LLCrashDictionaryViewController";
+        cellData.showTitle = @"NSDictionary";
+        
+        [self.dataSource addObject:cellData];
+        
+    }
+    
+    
+    {
+        LLCommonTableListCellData * cellData = [LLCommonTableListCellData new];
+        cellData.cellName = @"LLCrashMutableDictionaryViewController";
+        cellData.showTitle = @"NSMutableDictionary";
+        
+        [self.dataSource addObject:cellData];
+        
+    }
+    
     
 
 }

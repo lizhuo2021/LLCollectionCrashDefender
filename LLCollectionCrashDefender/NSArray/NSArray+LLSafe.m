@@ -115,7 +115,9 @@
         instance = [self ll_NSPlaceholderArray_initWithObjects:objects count:cnt];
     }
     @catch (NSException *exception) {
-          
+        
+        [LLCollectionExceptionHandler exceptionHandlerWithException:exception];
+        
         //手动将nil去除。
         NSInteger newObjsIndex = 0;
         id  _Nonnull __unsafe_unretained newObjects[cnt];

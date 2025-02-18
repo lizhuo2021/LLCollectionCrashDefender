@@ -60,6 +60,19 @@
     
     CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
     
+    
+//    {
+//        //        通过 NSArray * array = @[item1, item2, item3]; 创建的。会执行到
+//        //        +[NSArray arrayWithObjects:count:]
+//        //        -[__NSPlaceholderArray initWithObjects:count:]
+//        UIButton * button = [self createBlackButtonWithTitle:@"NSArray * array = @[obj1, obj2, nil]" target:self action:@selector(testArrayAddNilObject)];
+//        [self.view addSubview:button];
+//        
+//        button.frame = CGRectMake(15, statusBarHeight + navigationBarHeight + 10, CGRectGetWidth(self.view.frame) - 30, 30);
+//        lastButton = button;
+//    }
+    
+    
 //    MARK: objectAtIndex:
     {
         UIButton * button = [self createBlackButtonWithTitle:@"__NSArray0 objectAtIndex" target:self action:@selector(testObjectAtIndex4Array0)];
@@ -179,6 +192,22 @@
 }
 
 
+//- (void)testArrayAddNilObject {
+//    
+//    LLUserModel * item1 = [LLUserModel new];
+//    item1.name = @"123123123123131";
+//    item1.age = 99;
+//    
+//    LLUserModel * item2;
+//    
+//    LLUserModel * item3 = [LLUserModel new];
+//    item3.name = @"123123123123131";
+//    item3.age = 99;
+//    
+//    NSArray * array = @[item1, item2, item3];
+//    
+//}
+
 // MARK: objectAtIndex:
 - (void)testObjectAtIndex4Array0 {
     
@@ -207,21 +236,15 @@
     item1.name = @"123123123123131";
     item1.age = 99;
     
-//    LLUserModel * item2 = [LLUserModel new];
-//    item2.name = @"123123123123131";
-//    item2.age = 99;
-    
-    LLUserModel * item2;
+    LLUserModel * item2 = [LLUserModel new];
+    item2.name = @"123123123123131";
+    item2.age = 99;
     
     LLUserModel * item3 = [LLUserModel new];
     item3.name = @"123123123123131";
     item3.age = 99;
     
     NSArray * array = @[item1, item2, item3];
-
-    
-    
-//    NSArray * newArray = []
     
     [array objectAtIndex:10];
     
